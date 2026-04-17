@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkJRM_VBS_portal=self.webpackChunkJRM_VBS_portal||[]).push([[678],{19678:function(a,e,t){t.r(e);var u=t(6020);e.default=u.g}}]);
-//# sourceMappingURL=678.dda3c8f0.chunk.js.map
