@@ -626,10 +626,10 @@ export default function AppWidgetSummary({
       localStorage.setItem("category", "beginner");
     } else if (today.diff(dob, "years") > 7 && today.diff(dob, "years") <= 10) {
       console.log(`age-${id}`, today.diff(dob, "years"));
-      localStorage.setItem("category", "primary");
+      localStorage.setItem("category", "junior");
     } else if (today.diff(dob, "years") >= 11 && today.diff(dob, "years") <= 13) {
       console.log(`age-${id}`, today.diff(dob, "years"));
-      localStorage.setItem("category", "junior");
+      localStorage.setItem("category", "senior");
     }
 
     console.log("routing path", PATH_DASHBOARD.general.playgame(id));

@@ -892,7 +892,7 @@ export default function Memory() {
                   {/* Day 1 Button - April 27, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={!isButtonEnabled("2026-04-27 11:50:00")}
+                    disabled={!isButtonEnabled("2026-05-11 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-27", token, "Day1");
                       setState("day1");
@@ -905,7 +905,7 @@ export default function Memory() {
                   {/* Day 2 Button - April 28, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={!isButtonEnabled("2026-04-28 11:50:00")}
+                    disabled={!isButtonEnabled("2026-05-12 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-28", token, "Day2");
                       setState("day2");
@@ -918,7 +918,7 @@ export default function Memory() {
                   {/* Day 3 Button - April 29, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={!isButtonEnabled("2026-04-29 11:50:00")}
+                    disabled={!isButtonEnabled("2026-05-13 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-29", token, "Day3");
                       setState("day3");
@@ -931,7 +931,7 @@ export default function Memory() {
                   {/* Day 4 Button - April 30, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={!isButtonEnabled("2026-04-30 11:50:00")}
+                    disabled={!isButtonEnabled("2026-05-14 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-30", token, "Day4");
                       setState("day4");
@@ -944,7 +944,7 @@ export default function Memory() {
                   {/* Day 5 Button - May 1, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={!isButtonEnabled("2026-05-01 11:50:00")}
+                    disabled={!isButtonEnabled("2026-05-15 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-05-01", token, "Day5");
                       setState("day5");

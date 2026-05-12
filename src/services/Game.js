@@ -23,12 +23,12 @@ const HandlePlay = (id, dateOfBirth, path) => {
   } else if (today.diff(dob, "years") >= 8 && today.diff(dob, "years") <= 10) {
 
     console.log(`age-${id}`, today.diff(dob, "years"));
-    localStorage.setItem("category", "primary");
+    localStorage.setItem("category", "junior");
 
   } else if (today.diff(dob, "years") >= 11 && today.diff(dob, "years") <= 13) {
 
     console.log(`age-${id}`, today.diff(dob, "years"));
-    localStorage.setItem("category", "junior");
+    localStorage.setItem("category", "senior");
     
   }
   navigate(PATH_DASHBOARD.general.routegame(id, path));
