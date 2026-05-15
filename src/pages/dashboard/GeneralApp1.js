@@ -743,8 +743,15 @@ export default function GeneralApp1() {
 
   const { themeStretch } = useSettings();
 
-  const isCertificateAvailable = new Date(`2026-05-01T09:00:00`).getTime() <
-    new Date(`${currentDate}T${currentTime}`).getTime();
+  const certificateStartDate = new Date('2026-05-15T12:00:00').getTime();
+const certificateEndDate = new Date('2026-06-30T23:59:59').getTime();
+const currentDateTime = new Date(`${currentDate}T${currentTime}`).getTime();
+
+const isCertificateAvailable = currentDateTime > certificateStartDate && 
+                               currentDateTime < certificateEndDate;
+
+  // const isCertificateAvailable = new Date(`2026-05-011T09:00:00`).getTime() <
+  //   new Date(`${currentDate}T${currentTime}`).getTime();
 
   const handlePlay = (id, dateOfBirth, path) => {
     localStorage.setItem("path", path);
