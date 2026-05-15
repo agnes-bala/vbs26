@@ -414,6 +414,360 @@
 //   );
 // }
 
+// import { useEffect, useRef } from "react";
+// // import { useNavigate } from "react-router-dom";
+// // @mui
+// import { m } from "framer-motion";
+// import { styled } from "@mui/material/styles";
+// import { Button, Container, Typography, Stack } from "@mui/material";
+// import moment from "moment-timezone";
+// // utils
+// // import cssStyles from "../../../../utils/cssStyles";
+// // import cssStyles from "src/utils/cssStyles";
+
+// import { MotionContainer } from "src/components/animate";
+
+// // components
+// // import Image from "../../../../components/Image";
+// import { useState } from "react";
+// import { getScore, startGame } from "src/services/JRMFeedService";
+// // import { toast } from "react-toastify";
+// // import { PATH_DASHBOARD } from "src/routes/paths";
+
+// // ----------------------------------------------------------------------
+
+// const RootStyle = styled(m.div)(({ theme }) => ({
+//   position: "relative",
+//   backgroundColor: theme.palette.grey[400],
+//   backgroundSize: "cover",
+//   backgroundPosition: "right",
+//   backgroundImage: "url(/assets/act-bg-7.png)",
+
+//   [theme.breakpoints.up("md")]: {
+//     top: 0,
+//     left: 0,
+//     width: "100%",
+//     height: "100%",
+//     paddingTop: 20,
+//     paddingBottom: 450,
+//     display: "flex",
+//     alignItems: "center",
+//   },
+// }));
+
+// const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(
+//   ({ theme }) => ({
+//     zIndex: 10,
+//     margin: "auto",
+//     textAlign: "center",
+//     paddingTop: theme.spacing(15),
+//     paddingBottom: theme.spacing(15),
+//     [theme.breakpoints.up("md")]: {
+//       margin: "unset",
+//       textAlign: "center",
+//     },
+//   })
+// );
+
+// // ----------------------------------------------------------------------
+// // const days = [
+// //   {
+// //     title: "Day 1",
+// //     day: "2026-04-27",
+// //     month: "05",
+// //   },
+// // ];
+
+// export default function Memory() {
+//   const pId = localStorage.getItem("partnerId");
+//   const token = localStorage.getItem("jwt");
+//   const gameName = localStorage.getItem("path");
+//   const childId = localStorage.getItem("currentChildId");
+
+//   useEffect(() => {
+//     const result = getScore(pId, childId, token, gameName);
+//     console.log("score", result.data);
+//   }, [pId, childId, token, gameName]);
+
+//   const Game = async (pId, childId, day, token, gameName) => {
+//     const response = await startGame(pId, childId, day, token, gameName);
+//     console.log("fn resp", response);
+//   };
+
+//   const ref = useRef(null);
+//   const [state, setState] = useState("");
+
+//   let day = new Date();
+//   const date = moment(day).tz("Asia/Kolkata").format("YYYY-MM-DD");
+//   const time = moment(day).tz("Asia/Kolkata").format("HH:mm:ss");
+
+//   console.log("date", date);
+//   console.log("time", time);
+
+//   return (
+//     <MotionContainer>
+//       <RootStyle>
+//         <Container>
+//           <ContentStyle>
+//             <>
+//               <>
+//                 <Typography
+//                   variant="h3"
+//                   alignItems="center"
+//                   justifyContent="center"
+//                   sx={{
+//                     color: "#FFFF",
+//                   }}
+//                 >
+//                   <br></br>
+//                   <br></br>
+//                   <br></br>
+//                   <br></br>
+//                   Activities
+//                 </Typography>
+
+//                 <Stack
+//                   direction="row"
+//                   alignItems="center"
+//                   justifyContent="center"
+//                   spacing={1}
+//                 >
+//                   {/* Day 1 Button - Modified */}
+//                   <Button
+//                     variant="contained"
+//                     disabled={
+//                       new Date(`2026-04-27T11:50:00`).getTime() <=
+//                         new Date(`${date}T${time}`).getTime()
+//                         ? false
+//                         : true
+//                     }
+//                     onClick={() => {
+//                       Game(pId, childId, "2026-04-27", token, "Day1");
+//                       setState("day1");
+//                       ref.current?.scrollIntoView({ behavior: "smooth" });
+//                     }}
+//                   >
+//                     Day 1
+//                   </Button>
+
+//                   {/* Day 2 Button - Modified */}
+//                   <Button
+//                     variant="contained"
+//                     disabled={
+//                       new Date(`2026-04-28T11:50:00`).getTime() <=
+//                         new Date(`${date}T${time}`).getTime()
+//                         ? false
+//                         : true
+//                     }
+//                     onClick={() => {
+//                       Game(pId, childId, "2026-04-28", token, "Day2");
+//                       setState("day2");
+//                       ref.current?.scrollIntoView({ behavior: "smooth" });
+//                     }}
+//                   >
+//                     Day 2
+//                   </Button>
+
+//                   {/* Day 3 Button - Modified */}
+//                   <Button
+//                     variant="contained"
+//                     disabled={
+//                       new Date(`2026-04-29T11:50:00`).getTime() <=
+//                         new Date(`${date}T${time}`).getTime()
+//                         ? false
+//                         : true
+//                     }
+//                     onClick={() => {
+//                       Game(pId, childId, "2026-04-29", token, "Day3");
+//                       setState("day3");
+//                       ref.current?.scrollIntoView({ behavior: "smooth" });
+//                     }}
+//                   >
+//                     Day 3
+//                   </Button>
+
+//                   {/* Day 4 Button - Modified */}
+//                   <Button
+//                     variant="contained"
+//                     disabled={
+//                       new Date(`2026-04-30T11:50:00`).getTime() <=
+//                         new Date(`${date}T${time}`).getTime()
+//                         ? false
+//                         : true
+//                     }
+//                     onClick={() => {
+//                       Game(pId, childId, "2026-04-30", token, "Day4");
+//                       setState("day4");
+//                       ref.current?.scrollIntoView({ behavior: "smooth" });
+//                     }}
+//                   >
+//                     Day 4
+//                   </Button>
+
+//                   {/* Day 5 Button - Modified */}
+//                   <Button
+//                     variant="contained"
+//                     disabled={
+//                       new Date(`2026-05-01T11:50:00`).getTime() <=
+//                         new Date(`${date}T${time}`).getTime()
+//                         ? false
+//                         : true
+//                     }
+//                     onClick={() => {
+//                       Game(pId, childId, "2026-05-01", token, "Day5");
+//                       setState("day5");
+//                       ref.current?.scrollIntoView({ behavior: "smooth" });
+//                     }}
+//                   >
+//                     Day 5
+//                   </Button>
+//                 </Stack>
+//               </>
+
+//               <div ref={ref}>
+//                 {/* Day 1 */}
+//                 {state === "day1" && (
+//                   <>
+//                     <Stack alignItems="center" spacing={3}>
+//                       {/* <Typography
+//                         variant="h4"
+//                         sx={{
+//                           color: "white",
+//                           background: "black",
+//                           opacity: "0.6",
+//                           padding: 1,
+//                           borderRadius: 2,
+//                         }}
+//                       >
+//                         BE DISCIPLINED
+//                       </Typography> */}
+//                       <iframe
+//                         src="https://online.jesusredeems.com/games/2026/Day1/"
+//                         width="100%"
+//                         height={800}
+//                         style={{ marginTop: 80 }}
+//                         title="Day1"
+//                       ></iframe>
+//                     </Stack>
+//                   </>
+//                 )}
+
+//                 {/* Day 2 */}
+//                 {state === "day2" && (
+//                   <>
+//                     <Stack alignItems="center" spacing={3}>
+//                       {/* <Typography
+//                         variant="h4"
+//                         sx={{
+//                           color: "white",
+//                           background: "black",
+//                           opacity: "0.6",
+//                           padding: 1,
+//                           borderRadius: 2,
+//                         }}
+//                       >
+//                         BE INCOMPARABLE                      </Typography> */}
+//                       <iframe
+//                         src="https://online.jesusredeems.com/games/2026/Day2/"
+//                         width="100%"
+//                         height={800}
+//                         style={{ marginTop: 80 }}
+//                         title="Day2"
+//                       ></iframe>
+//                     </Stack>
+//                   </>
+//                 )}
+
+//                 {/* Day 3 */}
+//                 {state === "day3" && (
+//                   <>
+//                     <Stack alignItems="center" spacing={2}>
+//                       {/* <Typography
+//                         variant="h4"
+//                         sx={{
+//                           color: "white",
+//                           background: "black",
+//                           opacity: "0.6",
+//                           padding: 1,
+//                           borderRadius: 2,
+//                         }}
+//                       >
+//                         Day 3
+//                       </Typography> */}
+//                       <iframe
+//                         src="https://online.jesusredeems.com/games/2026/Day3/"
+//                         width="100%"
+//                         style={{ marginTop: 180 }}
+//                         height={900}
+//                         title="Day3"
+//                       ></iframe>
+//                     </Stack>
+//                   </>
+//                 )}
+
+//                 {/* Day 4 */}
+//                 {state === "day4" && (
+//                   <>
+//                     <Stack alignItems="center" spacing={3}>
+//                       {/* <Typography
+//                         variant="h4"
+//                         sx={{
+//                           color: "white",
+//                           background: "black",
+//                           opacity: "0.6",
+//                           padding: 1,
+//                           borderRadius: 2,
+//                         }}
+//                       >
+//                         Day 4
+//                       </Typography> */}
+//                       <iframe
+//                         src="https://online.jesusredeems.com/games/2026/Day4/"
+//                         width="100%"
+//                         style={{ marginTop: 180 }}
+//                         height={900}
+//                         title="Day4"
+//                       ></iframe>
+//                     </Stack>
+//                   </>
+//                 )}
+
+//                 {/* Day 5 */}
+//                 {state === "day5" && (
+//                   <>
+//                     <Stack alignItems="center" spacing={3}>
+//                       {/* <Typography
+//                         variant="h4"
+//                         sx={{
+//                           color: "white",
+//                           background: "black",
+//                           opacity: "0.6",
+//                           padding: 1,
+//                           borderRadius: 2,
+//                         }}
+//                       >
+//                         Day 5
+//                       </Typography> */}
+//                       <iframe
+//                         src="https://online.jesusredeems.com/games/2026/Day5/"
+//                         width="100%"
+//                         height="700"
+//                         style={{ marginTop: 80 }}
+//                         // allowFullScreen=""
+//                         title="Day5"
+//                       ></iframe>
+//                     </Stack>
+//                   </>
+//                 )}
+//               </div>
+//             </>
+//           </ContentStyle>
+//         </Container>
+//       </RootStyle>
+//     </MotionContainer>
+//   );
+// }
+
 import { useEffect, useRef } from "react";
 // import { useNavigate } from "react-router-dom";
 // @mui
@@ -470,13 +824,6 @@ const ContentStyle = styled((props) => <Stack spacing={5} {...props} />)(
 );
 
 // ----------------------------------------------------------------------
-// const days = [
-//   {
-//     title: "Day 1",
-//     day: "2026-04-27",
-//     month: "05",
-//   },
-// ];
 
 export default function Memory() {
   const pId = localStorage.getItem("partnerId");
@@ -503,6 +850,15 @@ export default function Memory() {
 
   console.log("date", date);
   console.log("time", time);
+
+  // Function to check if a button should be enabled
+  const isButtonEnabled = (dayStartDateTime) => {
+    const currentDateTime = moment.tz(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss", "Asia/Kolkata");
+    const startDateTime = moment.tz(dayStartDateTime, "YYYY-MM-DD HH:mm:ss", "Asia/Kolkata");
+    
+    // Button is enabled if current time is same or after the start time
+    return currentDateTime.isSameOrAfter(startDateTime);
+  };
 
   return (
     <MotionContainer>
@@ -531,16 +887,12 @@ export default function Memory() {
                   alignItems="center"
                   justifyContent="center"
                   spacing={1}
+                  sx={{ flexWrap: 'wrap', gap: 1 }} // Added for better mobile responsiveness
                 >
-                  {/* Day 1 Button - Modified */}
+                  {/* Day 1 Button - April 27, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={
-                      new Date(`2026-04-27T11:50:00`).getTime() <=
-                        new Date(`${date}T${time}`).getTime()
-                        ? false
-                        : true
-                    }
+                    disabled={!isButtonEnabled("2026-04-27 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-27", token, "Day1");
                       setState("day1");
@@ -550,15 +902,10 @@ export default function Memory() {
                     Day 1
                   </Button>
 
-                  {/* Day 2 Button - Modified */}
+                  {/* Day 2 Button - April 28, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={
-                      new Date(`2026-04-28T11:50:00`).getTime() <=
-                        new Date(`${date}T${time}`).getTime()
-                        ? false
-                        : true
-                    }
+                    disabled={!isButtonEnabled("2026-04-28 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-28", token, "Day2");
                       setState("day2");
@@ -568,15 +915,10 @@ export default function Memory() {
                     Day 2
                   </Button>
 
-                  {/* Day 3 Button - Modified */}
+                  {/* Day 3 Button - April 29, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={
-                      new Date(`2026-04-29T11:50:00`).getTime() <=
-                        new Date(`${date}T${time}`).getTime()
-                        ? false
-                        : true
-                    }
+                    disabled={!isButtonEnabled("2026-04-29 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-29", token, "Day3");
                       setState("day3");
@@ -586,15 +928,10 @@ export default function Memory() {
                     Day 3
                   </Button>
 
-                  {/* Day 4 Button - Modified */}
+                  {/* Day 4 Button - April 30, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={
-                      new Date(`2026-04-30T11:50:00`).getTime() <=
-                        new Date(`${date}T${time}`).getTime()
-                        ? false
-                        : true
-                    }
+                    disabled={!isButtonEnabled("2026-04-30 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-04-30", token, "Day4");
                       setState("day4");
@@ -604,15 +941,10 @@ export default function Memory() {
                     Day 4
                   </Button>
 
-                  {/* Day 5 Button - Modified */}
+                  {/* Day 5 Button - May 1, 2026 */}
                   <Button
                     variant="contained"
-                    disabled={
-                      new Date(`2026-05-01T11:50:00`).getTime() <=
-                        new Date(`${date}T${time}`).getTime()
-                        ? false
-                        : true
-                    }
+                    disabled={!isButtonEnabled("2026-05-01 11:50:00")}
                     onClick={() => {
                       Game(pId, childId, "2026-05-01", token, "Day5");
                       setState("day5");
@@ -629,18 +961,6 @@ export default function Memory() {
                 {state === "day1" && (
                   <>
                     <Stack alignItems="center" spacing={3}>
-                      {/* <Typography
-                        variant="h4"
-                        sx={{
-                          color: "white",
-                          background: "black",
-                          opacity: "0.6",
-                          padding: 1,
-                          borderRadius: 2,
-                        }}
-                      >
-                        BE DISCIPLINED
-                      </Typography> */}
                       <iframe
                         src="https://online.jesusredeems.com/games/2026/Day1/"
                         width="100%"
@@ -656,17 +976,6 @@ export default function Memory() {
                 {state === "day2" && (
                   <>
                     <Stack alignItems="center" spacing={3}>
-                      {/* <Typography
-                        variant="h4"
-                        sx={{
-                          color: "white",
-                          background: "black",
-                          opacity: "0.6",
-                          padding: 1,
-                          borderRadius: 2,
-                        }}
-                      >
-                        BE INCOMPARABLE                      </Typography> */}
                       <iframe
                         src="https://online.jesusredeems.com/games/2026/Day2/"
                         width="100%"
@@ -682,18 +991,6 @@ export default function Memory() {
                 {state === "day3" && (
                   <>
                     <Stack alignItems="center" spacing={2}>
-                      {/* <Typography
-                        variant="h4"
-                        sx={{
-                          color: "white",
-                          background: "black",
-                          opacity: "0.6",
-                          padding: 1,
-                          borderRadius: 2,
-                        }}
-                      >
-                        Day 3
-                      </Typography> */}
                       <iframe
                         src="https://online.jesusredeems.com/games/2026/Day3/"
                         width="100%"
@@ -709,18 +1006,6 @@ export default function Memory() {
                 {state === "day4" && (
                   <>
                     <Stack alignItems="center" spacing={3}>
-                      {/* <Typography
-                        variant="h4"
-                        sx={{
-                          color: "white",
-                          background: "black",
-                          opacity: "0.6",
-                          padding: 1,
-                          borderRadius: 2,
-                        }}
-                      >
-                        Day 4
-                      </Typography> */}
                       <iframe
                         src="https://online.jesusredeems.com/games/2026/Day4/"
                         width="100%"
@@ -736,24 +1021,11 @@ export default function Memory() {
                 {state === "day5" && (
                   <>
                     <Stack alignItems="center" spacing={3}>
-                      {/* <Typography
-                        variant="h4"
-                        sx={{
-                          color: "white",
-                          background: "black",
-                          opacity: "0.6",
-                          padding: 1,
-                          borderRadius: 2,
-                        }}
-                      >
-                        Day 5
-                      </Typography> */}
                       <iframe
                         src="https://online.jesusredeems.com/games/2026/Day5/"
                         width="100%"
                         height="700"
                         style={{ marginTop: 80 }}
-                        // allowFullScreen=""
                         title="Day5"
                       ></iframe>
                     </Stack>

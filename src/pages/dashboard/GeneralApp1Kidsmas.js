@@ -191,6 +191,7 @@ export default function GeneralApp1() {
   }, []);
 
   console.log("Feed Response", feed);
+  
   useEffect(() => {
     axios
       .get(`${url}jrms/v1/partners/${pId}/childreninfo`, { headers: config })

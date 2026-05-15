@@ -233,6 +233,279 @@
 //   );
 // }
 
+// import PropTypes from "prop-types";
+// import moment from "moment-timezone";
+// import { useNavigate } from "react-router-dom";
+// import { alpha, useTheme, styled } from "@mui/material/styles";
+// import { useState, useEffect } from "react";
+
+// import {
+//   Box,
+//   Card,
+//   Typography,
+//   Stack,
+//   Button,
+// } from "@mui/material";
+// // utils
+// // import { getScore } from "../../../../services/JRMFeedService";
+// // components
+// import Iconify from "../../../../components/Iconify";
+// import { PATH_DASHBOARD } from "../../../../routes/paths";
+
+
+// // import {HandlePlay} from '../../../../services/Game';
+
+// // ----------------------------------------------------------------------
+
+// const IconWrapperStyle = styled("div")(({ theme }) => ({
+//   width: 24,
+//   height: 24,
+//   display: "flex",
+//   borderRadius: "50%",
+//   alignItems: "center",
+//   justifyContent: "center",
+//   color: theme.palette.success.main,
+//   backgroundColor: alpha(theme.palette.success.main, 0.16),
+// }));
+
+// // ----------------------------------------------------------------------
+
+// AppWidgetSummary.propTypes = {
+//   dob: PropTypes.string.isRequired,
+//   name: PropTypes.string.isRequired,
+//   gender: PropTypes.number.isRequired,
+//   sx: PropTypes.object,
+// };
+
+// // const online = [
+// //   { day: 15, link: "https://online.jesusredeems.com/games/connection/sblue/" },
+// //   { day: 16, link: "https://online.jesusredeems.com/games/snake/" },
+// //   { day: 17, link: "https://online.jesusredeems.com/games/fishing/" },
+// //   { day: 18, link: "https://online.jesusredeems.com/games/happyfarm/" },
+// //   { day: 19, link: "https://online.jesusredeems.com/games/ropestar/" },
+// // ];
+
+// export default function AppWidgetSummary({
+//   id,
+//   name,
+//   dob,
+//   gender,
+//   sx,
+//   ...other
+// }) {
+//   const theme = useTheme();
+
+//   const navigate = useNavigate();
+//   // const [viewscore, setScore] = useState(false);
+//   // const [popup, setPopup] = useState(false);
+//   // const [voteOption, setVoteOption] = useState("");
+//   // const [isVisible, setIsVisible] = useState(false);
+//   const [showCard, setShowCard] = useState(false);
+
+
+//   useEffect(() => {
+
+//     const checkTime = () => {
+//       const localTime = moment();
+//       const indiaTime = moment().tz("Asia/Kolkata");
+//       console.log("Local Time:", localTime.format("YYYY-MM-DD HH:mm:ss"));
+//       console.log("India Time:", indiaTime);
+
+//       const indiaStartTime = indiaTime.clone().hour(10).minute(0).second(0);
+//       const indiaEndTime = indiaTime.clone().hour(23).minute(59).second(59);
+
+
+//       // console.log("indiaStartTime", indiaDay1StartTime);
+//       // if (indiaTime.isBetween(indiaDay1StartTime, indiaDay2EndTime)) {
+//       //   setShowCard(true);
+//       // } else {
+//       //   setShowCard(false);
+//       // }
+//       if (indiaTime.isBetween(indiaStartTime, indiaEndTime)) {
+//         setShowCard(true);
+//         console.log(showCard)
+//       } else {
+//         setShowCard(false);
+//       }
+//     };
+
+//     checkTime();
+
+//     const interval = setInterval(checkTime, 30000); // Every  30 seconds Check
+//     return () => clearInterval(interval);
+//   }, []);
+
+
+
+//   let day = new Date();
+//   const date = moment(day).tz("Asia/Kolkata").format("DD");
+//   console.log("First date", date);
+
+//   // const score = async (id) => {
+//   //   const pId = localStorage.getItem("partnerId");
+//   //   const token = localStorage.getItem("jwt");
+//   //   const result = await getScore(pId, id, token, "gameName");
+//   //   console.log("score - ", result.data);
+//   //   console.log(
+//   //     "sum score ",
+//   //     result.data.gameScoreList.reduce((a, v) => (a = a + v.score), 0)
+//   //   );
+//   //   setScore(true);
+//   //   localStorage.setItem(
+//   //     `${id}-score`,
+//   //     result.data.gameScoreList.reduce((a, v) => (a = a + v.score), 0)
+//   //   );
+//   // };
+
+//   const handlePlay = (id, dateOfBirth, path) => {
+//     localStorage.setItem("path", path);
+//     localStorage.setItem("date", date);
+//     var today = moment();
+//     var dob = moment(dateOfBirth, "YYYY-MM-DD");
+//     localStorage.setItem("currentChildId", id);
+//     localStorage.setItem("childId", id);
+
+//     if (today.diff(dob, "years") <= 7) {
+//       console.log(`age-${id}`, today.diff(dob, "years"));
+//       localStorage.setItem("category", "beginner");
+//     } else if (today.diff(dob, "years") > 7 && today.diff(dob, "years") <= 10) {
+//       console.log(`age-${id}`, today.diff(dob, "years"));
+//       localStorage.setItem("category", "primary");
+//     } else if (today.diff(dob, "years") >= 11 && today.diff(dob, "years") <= 13) {
+//       console.log(`age-${id}`, today.diff(dob, "years"));
+//       localStorage.setItem("category", "junior");
+   
+//     }
+
+//     console.log("routing path", PATH_DASHBOARD.general.playgame(id));
+//     console.log("local stored path", path);
+//     navigate(PATH_DASHBOARD.general.playgame(id));
+//   };
+
+//   const handleGame = (id, dateOfBirth, path) => {
+//     localStorage.setItem("path", path);
+//     localStorage.setItem("date", date);
+//     // var today = moment();
+//     var dob = moment(dateOfBirth, "YYYY-MM-DD");
+
+//     if (dob.diff(moment("2026-02-26", "YYYY-MM-DD"), "days") === 0) {
+//       localStorage.setItem("category", "senior");
+//     } else if (dob.diff(moment("2026-02-27", "YYYY-MM-DD"), "days") === 0) {
+//       localStorage.setItem("category", "senior");
+//     } else if (dob.diff(moment("2026-02-28", "YYYY-MM-DD"), "days") === 0) {
+//       localStorage.setItem("category", "senior");
+//     } else {
+//       localStorage.setItem("category", "senior");
+//     }
+
+
+//     localStorage.setItem("currentChildId", id);
+//     localStorage.setItem("childId", id);
+
+
+
+
+
+//     console.log("routing path", PATH_DASHBOARD.general.games(id));
+//     console.log("local stored path", path);
+//     navigate(PATH_DASHBOARD.general.games(id));
+
+//   };
+
+
+//   // const handleNavigate = () => {
+//   //   navigate(PATH_DASHBOARD.general.vote(id), {
+//   //     state: {
+//   //       childId: id,
+//   //       fullName: name,
+//   //       dateOfBirth: dob,
+//   //       gender: gender,
+//   //     },
+//   //   });
+//   // };
+
+//   return (
+//     <Card
+//       key={id}
+//       sx={{ display: "flex", alignItems: "center", p: 3, ...sx }}
+//       {...other}
+//     >
+//       <Box sx={{ flexGrow: 1 }}>
+//         <Typography variant="h3">{name}</Typography>
+//         <Typography variant="subtitle">{dob}</Typography>
+
+//         <Stack
+//           direction="row"
+//           alignItems="center"
+//           spacing={1}
+//           sx={{ mt: 2, mb: 1 }}
+//         >
+//           <IconWrapperStyle
+//             sx={{
+//               ...(gender === 2 && {
+//                 color: "error.main",
+//                 bgcolor: alpha(theme.palette.error.main, 0.16),
+//               }),
+//             }}
+//           >
+//             <Iconify
+//               width={16}
+//               height={16}
+//               icon={
+//                 gender === 1
+//                   ? "icon-park-solid:boy-one"
+//                   : "icon-park-solid:girl-one"
+//               }
+//             />
+//           </IconWrapperStyle>
+//           <Typography variant="subtitle">
+//             {gender === 1 ? "Male" : "Female"}
+//           </Typography>
+//         </Stack>
+
+//       </Box>
+
+//       <Stack direction="column" spacing={2}>
+//         <Button
+//           variant="contained"
+//           endIcon={<Iconify icon={"ic:round-quiz"} />}
+//           onClick={() => handlePlay(id, dob, "quiz")}
+//           // disabled
+//         >
+//           Play Quiz
+//         </Button>
+
+//         <Button
+//           variant="contained"
+//           endIcon={<Iconify icon={"ph:game-controller-duotone"} />}
+//           onClick={() => handleGame(id, dob, "quiz")}
+//           // disabled
+//         >
+//           Activities
+//         </Button>
+
+
+
+//         {/* {showCard && (
+
+//           <Button
+//             variant="contained"
+//             size="medium"
+//             sx={{ mt: 2 }}
+//             onClick={handleNavigate}
+//             endIcon={<Iconify icon="mdi:vote-outline" />}
+//           >
+//             Vote
+//           </Button>
+
+//         )} */}
+
+
+//       </Stack>
+//     </Card>
+//   );
+// }
+
 import PropTypes from "prop-types";
 import moment from "moment-timezone";
 import { useNavigate } from "react-router-dom";
@@ -251,9 +524,6 @@ import {
 // components
 import Iconify from "../../../../components/Iconify";
 import { PATH_DASHBOARD } from "../../../../routes/paths";
-
-
-// import {HandlePlay} from '../../../../services/Game';
 
 // ----------------------------------------------------------------------
 
@@ -277,14 +547,6 @@ AppWidgetSummary.propTypes = {
   sx: PropTypes.object,
 };
 
-// const online = [
-//   { day: 15, link: "https://online.jesusredeems.com/games/connection/sblue/" },
-//   { day: 16, link: "https://online.jesusredeems.com/games/snake/" },
-//   { day: 17, link: "https://online.jesusredeems.com/games/fishing/" },
-//   { day: 18, link: "https://online.jesusredeems.com/games/happyfarm/" },
-//   { day: 19, link: "https://online.jesusredeems.com/games/ropestar/" },
-// ];
-
 export default function AppWidgetSummary({
   id,
   name,
@@ -294,68 +556,62 @@ export default function AppWidgetSummary({
   ...other
 }) {
   const theme = useTheme();
-
   const navigate = useNavigate();
-  // const [viewscore, setScore] = useState(false);
-  // const [popup, setPopup] = useState(false);
-  // const [voteOption, setVoteOption] = useState("");
-  // const [isVisible, setIsVisible] = useState(false);
-  const [showCard, setShowCard] = useState(false);
-
+  
+  const [isQuizEnabled, setIsQuizEnabled] = useState(false);
+  const [isActivityEnabled, setIsActivityEnabled] = useState(false);
+  const [currentDay, setCurrentDay] = useState(null);
 
   useEffect(() => {
-
-    const checkTime = () => {
-      const localTime = moment();
+    const checkDate = () => {
       const indiaTime = moment().tz("Asia/Kolkata");
-      console.log("Local Time:", localTime.format("YYYY-MM-DD HH:mm:ss"));
-      console.log("India Time:", indiaTime);
+      
+      // Define the event dates (May 11-15, 2026)
+      const eventDates = [
+        { day: 1, date: moment.tz("2026-05-11", "Asia/Kolkata") },
+        { day: 2, date: moment.tz("2026-05-12", "Asia/Kolkata") },
+        { day: 3, date: moment.tz("2026-05-13", "Asia/Kolkata") },
+        { day: 4, date: moment.tz("2026-05-14", "Asia/Kolkata") },
+        { day: 5, date: moment.tz("2026-05-15", "Asia/Kolkata") },
+      ];
 
-      const indiaStartTime = indiaTime.clone().hour(10).minute(0).second(0);
-      const indiaEndTime = indiaTime.clone().hour(23).minute(59).second(59);
+      // Find current event day
+      const currentEventDay = eventDates.find(eventDate => 
+        indiaTime.isSame(eventDate.date, 'day')
+      );
 
-
-      // console.log("indiaStartTime", indiaDay1StartTime);
-      // if (indiaTime.isBetween(indiaDay1StartTime, indiaDay2EndTime)) {
-      //   setShowCard(true);
-      // } else {
-      //   setShowCard(false);
-      // }
-      if (indiaTime.isBetween(indiaStartTime, indiaEndTime)) {
-        setShowCard(true);
-        console.log(showCard)
+      if (currentEventDay) {
+        setCurrentDay(currentEventDay.day);
+        // Enable buttons based on the current day
+        setIsQuizEnabled(currentEventDay.day >= 1);
+        setIsActivityEnabled(currentEventDay.day >= 1);
       } else {
-        setShowCard(false);
+        setCurrentDay(null);
+        // Check if current date is within the event range
+        const isWithinEventRange = eventDates.some(eventDate => 
+          indiaTime.isSame(eventDate.date, 'day')
+        );
+        setIsQuizEnabled(isWithinEventRange);
+        setIsActivityEnabled(isWithinEventRange);
       }
+
+      console.log("Current India Time:", indiaTime.format("YYYY-MM-DD HH:mm:ss"));
+      console.log("Current Day:", currentDay || "Not an event day");
     };
 
-    checkTime();
-
-    const interval = setInterval(checkTime, 30000); // Every  30 seconds Check
+    checkDate();
+    const interval = setInterval(checkDate, 30000); // Check every 30 seconds
     return () => clearInterval(interval);
   }, []);
 
+  const date = moment().tz("Asia/Kolkata").format("DD");
+  console.log("Current date:", date);
 
-
-  let day = new Date();
-  const date = moment(day).tz("Asia/Kolkata").format("DD");
-  console.log("First date", date);
-
-  // const score = async (id) => {
-  //   const pId = localStorage.getItem("partnerId");
-  //   const token = localStorage.getItem("jwt");
-  //   const result = await getScore(pId, id, token, "gameName");
-  //   console.log("score - ", result.data);
-  //   console.log(
-  //     "sum score ",
-  //     result.data.gameScoreList.reduce((a, v) => (a = a + v.score), 0)
-  //   );
-  //   setScore(true);
-  //   localStorage.setItem(
-  //     `${id}-score`,
-  //     result.data.gameScoreList.reduce((a, v) => (a = a + v.score), 0)
-  //   );
-  // };
+  // If you need different enabling logic for Quiz vs Activity:
+  // const isQuizEnabled = currentDay >= 1; // Enabled from Day 1
+  // const isActivityEnabled = currentDay >= 1; // Enabled from Day 1
+  // Or maybe Activity starts from Day 2:
+  // const isActivityEnabled = currentDay >= 2;
 
   const handlePlay = (id, dateOfBirth, path) => {
     localStorage.setItem("path", path);
@@ -374,7 +630,6 @@ export default function AppWidgetSummary({
     } else if (today.diff(dob, "years") >= 11 && today.diff(dob, "years") <= 13) {
       console.log(`age-${id}`, today.diff(dob, "years"));
       localStorage.setItem("category", "junior");
-   
     }
 
     console.log("routing path", PATH_DASHBOARD.general.playgame(id));
@@ -385,7 +640,6 @@ export default function AppWidgetSummary({
   const handleGame = (id, dateOfBirth, path) => {
     localStorage.setItem("path", path);
     localStorage.setItem("date", date);
-    // var today = moment();
     var dob = moment(dateOfBirth, "YYYY-MM-DD");
 
     if (dob.diff(moment("2026-02-26", "YYYY-MM-DD"), "days") === 0) {
@@ -398,31 +652,13 @@ export default function AppWidgetSummary({
       localStorage.setItem("category", "senior");
     }
 
-
     localStorage.setItem("currentChildId", id);
     localStorage.setItem("childId", id);
-
-
-
-
 
     console.log("routing path", PATH_DASHBOARD.general.games(id));
     console.log("local stored path", path);
     navigate(PATH_DASHBOARD.general.games(id));
-
   };
-
-
-  // const handleNavigate = () => {
-  //   navigate(PATH_DASHBOARD.general.vote(id), {
-  //     state: {
-  //       childId: id,
-  //       fullName: name,
-  //       dateOfBirth: dob,
-  //       gender: gender,
-  //     },
-  //   });
-  // };
 
   return (
     <Card
@@ -463,6 +699,11 @@ export default function AppWidgetSummary({
           </Typography>
         </Stack>
 
+        {currentDay && (
+          <Typography variant="caption" color="primary">
+            Day {currentDay} of Event
+          </Typography>
+        )}
       </Box>
 
       <Stack direction="column" spacing={2}>
@@ -470,7 +711,7 @@ export default function AppWidgetSummary({
           variant="contained"
           endIcon={<Iconify icon={"ic:round-quiz"} />}
           onClick={() => handlePlay(id, dob, "quiz")}
-          // disabled
+          disabled={!isQuizEnabled}
         >
           Play Quiz
         </Button>
@@ -479,28 +720,10 @@ export default function AppWidgetSummary({
           variant="contained"
           endIcon={<Iconify icon={"ph:game-controller-duotone"} />}
           onClick={() => handleGame(id, dob, "quiz")}
-          // disabled
+          disabled={!isActivityEnabled}
         >
           Activities
         </Button>
-
-
-
-        {/* {showCard && (
-
-          <Button
-            variant="contained"
-            size="medium"
-            sx={{ mt: 2 }}
-            onClick={handleNavigate}
-            endIcon={<Iconify icon="mdi:vote-outline" />}
-          >
-            Vote
-          </Button>
-
-        )} */}
-
-
       </Stack>
     </Card>
   );
