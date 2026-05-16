@@ -1,0 +1,31 @@
+{
+  "jrmClientUrl": "https://partnerservice-stage.jesusredeems.com/",
+  "jrmPartnerRegisterMobileUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/mobilesignup",
+  "jrmPartnerLoginUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/signin",
+  "jrmVideoFeedUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/feed/videos",
+  "jrmPartnerProfileUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/",
+ 
+  "jrmPartnerVerifyMobileUrl" : "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/verifymobileotp",
+  "jrmPartnerVerifyEmailUrl" : "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/verifyemailotp",
+
+  "jrmInitPasswordResetUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/initpasswordreset",
+  "jrmVerifyOTPUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/verifypasswordotp",
+  "jrmResendOTPUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/partners/resendotp",
+
+  "jrmPartnerDonationSericeUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/donations/partners/",
+  "jrmPartnerBlessingPlanSericeUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/blessingplans/partners/",
+  "jrmFeedServiceUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/feed/home",
+  "jrmPrayerServiceUrl": "https://partnerservice-stage.jesusredeems.com/jrms/v1/feed/prayers",
+
+  "jrmGetCountries": "https://partnerservice-stage.jesusredeems.com/jrms/v1/lookup/country",
+  "jrmGetStates": "https://partnerservice-stage.jesusredeems.com/jrms/v1/lookup/states",
+  "jrmGetDistricts": "https://partnerservice-stage.jesusredeems.com/jrms/v1/lookup/districts",
+  "jrmGetCities": "https://partnerservice-stage.jesusredeems.com/jrms/v1/lookup/cities",
+  
+
+
+  "quizGame":"https://partnerservice-stage.jesusredeems.com/jrms/v1/kidsmas/partners",
+  "quizIndiaResult":"https://partnerservice-stage.jesusredeems.com/jrms/v1/kidsmas/overallresult/2022/india",
+  "quizNonIndiaResult":"https://partnerservice-stage.jesusredeems.com/jrms/v1/kidsmas/overallresult/2022/12",
+  "quizQuestions":"https://partnerservice-stage.jesusredeems.com/jrms/v1/kidsmas/"
+}

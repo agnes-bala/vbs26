@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dispatch management · queue, return, pincode report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #f1f4f9;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .app {
+            max-width: 1440px;
+            width: 100%;
+        }
+        /* header / title */
+        .title-section {
+            margin-bottom: 2rem;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            font-weight: 500;
+            color: #1a2b3e;
+            letter-spacing: -0.02em;
+            margin: 0 0 0.25rem 0;
+        }
+        .title-section .sub {
+            color: #3c4f6e;
+            border-left: 3px solid #4f6f9f;
+            padding-left: 1rem;
+            font-weight: 350;
+            font-size: 1rem;
+        }
+        /* tabs */
+        .tabs {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #cad3e3;
+            padding-bottom: 0.1rem;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.6rem 2rem 0.6rem 2rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #3f5270;
+            cursor: pointer;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.1s ease;
+            margin-right: 0.25rem;
+            border: 1px solid transparent;
+            border-bottom: none;
+        }
+        .tab-btn:hover {
+            background: #e2eaf6;
+            color: #1a2b40;
+        }
+        .tab-btn.active {
+            background: #ffffff;
+            border-color: #bdcce0;
+            border-bottom-color: white;
+            color: #1f3a60;
+            font-weight: 600;
+            transform: translateY(1px);
+        }
+        /* card container */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 28px -8px rgba(30, 45, 70, 0.12);
+            padding: 1.8rem 2rem;
+            margin-bottom: 2.2rem;
+            border: 1px solid #e4eaf2;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.8rem;
+        }
+        .card-header h2 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #1e3146;
+            margin: 0;
+        }
+        .badge {
+            background: #eaf0fa;
+            color: #2a4a78;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #c6d7f0;
+        }
+        /* filters */
+        .dept-filter-bar {
+            background: #f8fafd;
+            padding: 0.8rem 1.5rem;
+            border-radius: 40px;
+            border: 1px solid #dbe2ed;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .filter-group .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2e4a73;
+        }
+        .checkbox-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            color: #1e3a5f;
+            background: white;
+            padding: 0.25rem 1.2rem 0.25rem 0.8rem;
+            border-radius: 40px;
+            border: 1px solid #cddbf0;
+        }
+        /* tables */
+        .table-wrapper {
+            border: 1px solid #dee7f2;
+            border-radius: 14px;
+            overflow-x: auto;
+            background: white;
+            margin: 1.2rem 0 1.2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 700px;
+        }
+        th {
+            text-align: left;
+            padding: 1rem 1rem;
+            background-color: #f4f8ff;
+            color: #1d3c61;
+            font-weight: 500;
+            border-bottom: 1px solid #d2dff0;
+        }
+        td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid #e3ebf5;
+            color: #1d3148;
+        }
+        .status {
+            background: #eaf2fc;
+            color: #1c4d8a;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.9rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+        .status.printed {
+            background: #e0f2e9;
+            color: #0e6245;
+        }
+        .status.dispatched {
+            background: #fff0dd;
+            color: #a14500;
+        }
+        /* action buttons */
+        .action-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            background: white;
+            border: 1px solid #b8cbdf;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1b385b;
+            cursor: pointer;
+            transition: 0.1s ease;
+        }
+        .btn-primary {
+            background: #1d3f64;
+            border-color: #123150;
+            color: white;
+            box-shadow: 0 4px 10px -6px #13273e;
+        }
+        .btn-primary:hover {
+            background: #143353;
+        }
+        .btn:hover {
+            background: #ecf3fc;
+            border-color: #92a9c5;
+        }
+        /* popup / dispatch form */
+        .dispatch-panel {
+            background: #f9fcff;
+            border: 1px solid #cddef5;
+            border-radius: 24px;
+            padding: 2rem 2rem;
+            margin-top: 2rem;
+        }
+        .dispatch-panel h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #173453;
+            margin-top: 0;
+            margin-bottom: 1.8rem;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem 2.5rem;
+            margin-bottom: 1.8rem;
+        }
+        .form-field {
+            flex: 1 1 160px;
+            min-width: 150px;
+        }
+        .form-field label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #44658b;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            margin-bottom: 0.25rem;
+        }
+        .form-field input,
+        .form-field select,
+        .form-field textarea {
+            width: 100%;
+            padding: 0.6rem 0.9rem;
+            border-radius: 18px;
+            border: 1.5px solid #d5e1f0;
+            background: white;
+            font-size: 0.9rem;
+        }
+        .form-field textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        /* report cards */
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin: 2rem 0 0.5rem;
+        }
+        .report-card {
+            background: #ffffff;
+            border: 1px solid #dce5f1;
+            border-radius: 20px;
+            padding: 1.4rem 1.2rem;
+            box-shadow: 0 3px 10px #e3eaf3;
+        }
+        .report-card .district {
+            font-weight: 600;
+            color: #15355a;
+            font-size: 1rem;
+        }
+        .report-card .detail {
+            color: #3d5779;
+            font-size: 0.85rem;
+            margin: 0.5rem 0 0.25rem;
+            border-bottom: 1px dashed #cad8ec;
+            padding-bottom: 0.5rem;
+        }
+        .report-card .count {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1b3b64;
+        }
+        .footer-note {
+            margin-top: 2.5rem;
+            color: #46658b;
+            font-size: 0.8rem;
+            text-align: center;
+            border-top: 1px solid #cdd9eb;
+            padding-top: 1.5rem;
+        }
+        input[type="checkbox"] {
+            width: 1rem;
+            height: 1rem;
+            accent-color: #2d5580;
+        }
+        .hidden {
+            display: none;
+        }
+        .selected-hint {
+            font-size: 0.85rem;
+            color: #32506f;
+            background: #f0f6ff;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="title-section">
+        <h1>Dispatch management system</h1>
+        <div class="sub">queue · return entry · pincode monthly report</div>
+    </div>
+
+    <!-- tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" id="tabQueue">Queue / print</button>
+        <button class="tab-btn" id="tabReturn">Return entry</button>
+        <button class="tab-btn" id="tabReport">Pincode report</button>
+    </div>
+
+    <!-- PAGE 1: QUEUE + DISPATCH (default) -->
+    <div id="pageQueue">
+        <!-- department filters -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Incoming queue · department filter</h2>
+                <div class="badge">accounts / letter / partners / hr</div>
+            </div>
+            <div class="dept-filter-bar">
+                <span class="label">Filter by dept:</span>
+                <div class="checkbox-group" id="deptCheckGroup">
+                    <label><input type="checkbox" value="accounts" class="dept-cb" checked> accounts</label>
+                    <label><input type="checkbox" value="letter" class="dept-cb" checked> letter</label>
+                    <label><input type="checkbox" value="partners" class="dept-cb" checked> partners</label>
+                    <label><input type="checkbox" value="HR" class="dept-cb" checked> HR</label>
+                </div>
+                <span style="margin-left: auto; color:#466185; font-size:0.85rem;">sorted: district / country / pincode</span>
+            </div>
+
+            <!-- queue table (yet to print) -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <h3 style="font-weight: 500; font-size: 1.1rem; color: #1f3d62;">Yet to print</h3>
+                <span class="selected-hint" id="queueSelectedCount">0 selected</span>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr><th style="width: 30px;"><input type="checkbox" id="selectAllQueue"></th><th>ID</th><th>Dept</th><th>District</th><th>Country</th><th>Pincode</th><th>Status</th></tr>
+                    </thead>
+                    <tbody id="queueTableBody"></tbody>
+                </table>
+            </div>
+            <div class="action-bar">
+                <button class="btn btn-primary" id="printSelectedBtn">Print selected</button>
+            </div>
+        </div>
+
+        <!-- printed items + dispatch -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Printed & ready for dispatch</h2>
+                <div class="badge">select items → dispatch entry</div>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th><input type="checkbox" id="selectAllPrinted"></th><th>ID</th><th>Dept</th><th>District</th><th>Country</th><th>Status</th></tr></thead>
+                    <tbody id="printedTableBody"></tbody>
+                </table>
+            </div>
+            <div class="action-bar">
+                <button class="btn btn-primary" id="showDispatchBtn">Do dispatch entry</button>
+            </div>
+
+            <!-- dispatch entry panel (hidden by default) -->
+            <div id="dispatchPanel" class="dispatch-panel hidden">
+                <h3>Dispatch details · bulk entry (weight included)</h3>
+                <div class="form-row">
+                    <div class="form-field"><label>Dispatch date</label><input type="date" value="2026-03-11"></div>
+                    <div class="form-field"><label>Item weight (g)</label><input type="text" placeholder="e.g. 250"></div>
+                    <div class="form-field"><label>Dispatch charge</label><input type="text" placeholder="0.00"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field"><label>Postal type</label><select><option>Airmail</option><option>Surface</option><option>Express</option></select></div>
+                    <div class="form-field"><label>Postal subtype</label><input placeholder="international / domestic"></div>
+                    <div class="form-field"><label>Status</label><select><option>Dispatched</option><option>Pending</option></select></div>
+                    <div class="form-field"><label>Remarks</label><textarea placeholder="optional notes"></textarea></div>
+                </div>
+                <div class="action-bar">
+                    <button class="btn" id="closeDispatchPanel">Cancel</button>
+                    <button class="btn btn-primary" id="submitDispatchBtn">Submit dispatch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: RETURN ENTRY (hidden) -->
+    <div id="pageReturn" class="hidden">
+        <div class="card">
+            <div class="card-header">
+                <h2>Return entry form</h2>
+                <div class="badge">record returned items</div>
+            </div>
+            <div style="background: #fbfdff; border-radius: 20px; padding: 1.8rem;">
+                <div class="form-row">
+                    <div class="form-field"><label>Return date</label><input type="date" value="2026-03-11"></div>
+                    <div class="form-field"><label>Transaction ID</label><input placeholder="R12345"></div>
+                    <div class="form-field"><label>Postal type</label><select><option>Airmail</option><option>Surface</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field"><label>Postal subtype</label><input placeholder="return letter"></div>
+                    <div class="form-field"><label>Remarks</label><textarea placeholder="reason for return"></textarea></div>
+                </div>
+                <div class="action-bar">
+                    <button class="btn btn-primary" id="submitReturnBtn">Submit return</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: PINCODE REPORT -->
+    <div id="pageReport" class="hidden">
+        <div class="card">
+            <div class="card-header">
+                <h2>Pincode wise dispatch report · monthly magazine count</h2>
+                <div class="badge">district / country / pincode / area</div>
+            </div>
+            <!-- filter line -->
+            <div class="dept-filter-bar" style="border-radius: 40px; gap: 1.5rem;">
+                <div class="filter-group"><span class="label">Month</span> <select id="repMonth"><option>March</option><option>April</option></select></div>
+                <div class="filter-group"><span class="label">Year</span> <input type="number" value="2026" style="width:90px;"></div>
+                <div class="filter-group"><span class="label">District</span> <input placeholder="any" style="width:110px;"></div>
+                <div class="filter-group"><span class="label">Country</span> <input placeholder="any" style="width:110px;"></div>
+                <button class="btn btn-primary" id="generateReportBtn" style="padding:0.3rem 2rem;">Generate</button>
+            </div>
+            <!-- report cards -->
+            <div id="reportContainer" class="report-grid">
+                <!-- sample cards will be replaced by js, but static demo shown -->
+            </div>
+            <p style="color: #3f5d84; margin-top: 1rem; font-size: 0.85rem;">Grouped by district, country, pincode, area. Shows total magazines sent for selected month/year.</p>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        professional flow · queue → dept filter → print → dispatch (with weight) → return page → pincode monthly report
+    </div>
+</div>
+
+<script>
+    (function() {
+        // data stores
+        let queueData = [
+            { id:'Q001', dept:'accounts', district:'north', country:'UK', pincode:'E1 6AN', area:'city', status:'yet to print' },
+            { id:'Q002', dept:'letter', district:'central', country:'USA', pincode:'10001', area:'midtown', status:'yet to print' },
+            { id:'Q003', dept:'partners', district:'south', country:'Canada', pincode:'M5V 3L9', area:'downtown', status:'yet to print' },
+            { id:'Q004', dept:'accounts', district:'west', country:'UK', pincode:'B2 4QA', area:'harbour', status:'yet to print' },
+            { id:'Q005', dept:'letter', district:'east', country:'Australia', pincode:'2000', area:'bondi', status:'yet to print' },
+            { id:'Q006', dept:'HR', district:'north', country:'UK', pincode:'M1 7ED', area:'north quarter', status:'yet to print' },
+            { id:'Q007', dept:'accounts', district:'central', country:'USA', pincode:'10005', area:'financial', status:'yet to print' },
+        ];
+        let printedItems = [];   // status 'printed'
+
+        // DOM elements
+        const queueTbody = document.getElementById('queueTableBody');
+        const printedTbody = document.getElementById('printedTableBody');
+        const deptCbs = document.querySelectorAll('.dept-cb');
+        const selectAllQueue = document.getElementById('selectAllQueue');
+        const queueSelectedSpan = document.getElementById('queueSelectedCount');
+        const selectAllPrinted = document.getElementById('selectAllPrinted');
+        const printBtn = document.getElementById('printSelectedBtn');
+        const showDispatchBtn = document.getElementById('showDispatchBtn');
+        const dispatchPanel = document.getElementById('dispatchPanel');
+        const closeDispatch = document.getElementById('closeDispatchPanel');
+        const submitDispatch = document.getElementById('submitDispatchBtn');
+
+        // tab navigation
+        const tabQueue = document.getElementById('tabQueue');
+        const tabReturn = document.getElementById('tabReturn');
+        const tabReport = document.getElementById('tabReport');
+        const pageQueue = document.getElementById('pageQueue');
+        const pageReturn = document.getElementById('pageReturn');
+        const pageReport = document.getElementById('pageReport');
+
+        tabQueue.addEventListener('click', () => {
+            [tabQueue, tabReturn, tabReport].forEach(b => b.classList.remove('active'));
+            tabQueue.classList.add('active');
+            pageQueue.classList.remove('hidden');
+            pageReturn.classList.add('hidden');
+            pageReport.classList.add('hidden');
+        });
+        tabReturn.addEventListener('click', () => {
+            [tabQueue, tabReturn, tabReport].forEach(b => b.classList.remove('active'));
+            tabReturn.classList.add('active');
+            pageQueue.classList.add('hidden');
+            pageReturn.classList.remove('hidden');
+            pageReport.classList.add('hidden');
+        });
+        tabReport.addEventListener('click', () => {
+            [tabQueue, tabReturn, tabReport].forEach(b => b.classList.remove('active'));
+            tabReport.classList.add('active');
+            pageQueue.classList.add('hidden');
+            pageReturn.classList.add('hidden');
+            pageReport.classList.remove('hidden');
+        });
+
+        // render queue based on dept filters
+        function renderQueue() {
+            const selectedDepts = Array.from(document.querySelectorAll('.dept-cb:checked')).map(cb => cb.value);
+            const filtered = queueData.filter(item => item.status === 'yet to print' && selectedDepts.includes(item.dept));
+            let html = '';
+            filtered.forEach(item => {
+                html += `<tr><td><input type="checkbox" class="queue-chk" data-id="${item.id}"></td>
+                    <td>${item.id}</td><td>${item.dept}</td><td>${item.district}</td><td>${item.country}</td>
+                    <td>${item.pincode}</td><td><span class="status">${item.status}</span></td></tr>`;
+            });
+            if (filtered.length === 0) html = '<tr><td colspan="7" style="padding:2rem;text-align:center;">No items match department filter</td></tr>';
+            queueTbody.innerHTML = html;
+            updateQueueSelected();
+        }
+
+        function renderPrinted() {
+            if (printedItems.length === 0) {
+                printedTbody.innerHTML = '<tr><td colspan="6" style="padding:2rem;text-align:center;">No printed items</td></tr>';
+                return;
+            }
+            let html = '';
+            printedItems.forEach(p => {
+                html += `<tr><td><input type="checkbox" class="printed-chk" data-id="${p.id}"></td>
+                    <td>${p.id}</td><td>${p.dept}</td><td>${p.district}</td><td>${p.country}</td>
+                    <td><span class="status printed">${p.status}</span></td></tr>`;
+            });
+            printedTbody.innerHTML = html;
+        }
+
+        function updateQueueSelected() {
+            const cnt = document.querySelectorAll('.queue-chk:checked').length;
+            queueSelectedSpan.innerText = cnt + ' selected';
+        }
+
+        // dept filter change
+        deptCbs.forEach(cb => cb.addEventListener('change', renderQueue));
+
+        // select all in queue
+        selectAllQueue.addEventListener('change', (e) => {
+            document.querySelectorAll('.queue-chk').forEach(cb => cb.checked = e.target.checked);
+            updateQueueSelected();
+        });
+        queueTbody.addEventListener('change', (e) => {
+
+            if (e.target.classList.contains('queue-chk')) updateQueueSelected();
+            
+        });
+
+        // print button
+        printBtn.addEventListener('click', () => {
+            const checked = document.querySelectorAll('.queue-chk:checked');
+            if (!checked.length) return alert('Select items to print');
+            const selectedIds = new Set([...checked].map(cb => cb.dataset.id));
+            queueData = queueData.map(item => {
+                if (selectedIds.has(item.id) && item.status === 'yet to print') {
+                    const updated = { ...item, status: 'printed' };
+                    if (!printedItems.some(p => p.id === updated.id)) printedItems.push(updated);
+                    return updated;
+                }
+                return item;
+            });
+            renderQueue();
+            renderPrinted();
+            selectAllQueue.checked = false;
+        });
+
+        // select all printed
+        selectAllPrinted.addEventListener('change', (e) => {
+            document.querySelectorAll('.printed-chk').forEach(cb => cb.checked = e.target.checked);
+        });
+
+        // show dispatch panel
+        showDispatchBtn.addEventListener('click', () => {
+            if (document.querySelectorAll('.printed-chk:checked').length === 0) 
+                return alert('Select printed items first');
+            dispatchPanel.classList.remove('hidden');
+        });
+        closeDispatch.addEventListener('click', (e) => {
+            e.preventDefault();
+            dispatchPanel.classList.add('hidden');
+        });
+
+        // submit dispatch (with weight)
+        submitDispatch.addEventListener('click', (e) => {
+            e.preventDefault();
+            const selected = document.querySelectorAll('.printed-chk:checked');
+
+            if (!selected.length) return alert('No printed items selected');
+
+            const weightField = document.querySelector('#dispatchPanel input[placeholder*="weight"]');
+
+            const weight = weightField ? weightField.value : '';
+
+            console.log('dispatch weight:', weight);
+
+            const selectedIds = new Set([...selected].map(cb => cb.dataset.id));
+
+            printedItems = printedItems.map(p => selectedIds.has(p.id) ? { ...p, status: 'dispatched' } : p);
+            renderPrinted();
+
+            dispatchPanel.classList.add('hidden');
+
+            alert(`Dispatch recorded for ${selectedIds.size} items. Weight: ${weight || 'unspecified'}g`);
+        });
+
+        // return submit (demo)
+        document.getElementById('submitReturnBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Return entry recorded (demo).');
+        });
+
+        // report generate (sample)
+        document.getElementById('generateReportBtn')?.addEventListener('click', () => {
+            const month = document.getElementById('repMonth').value;
+            const year = document.querySelector('#pageReport input[type=number]').value;
+            const container = document.getElementById('reportContainer');
+            container.innerHTML = `
+                <div class="report-card"><div class="district">North district</div><div class="detail">E1 6AN · area: city</div><div class="count">${month} ${year}: 18 magazines</div></div>
+                <div class="report-card"><div class="district">Central district</div><div class="detail">10001 · area: midtown</div><div class="count">${month} ${year}: 12 magazines</div></div>
+                <div class="report-card"><div class="district">South district</div><div class="detail">M5V 3L9 · area: downtown</div><div class="count">${month} ${year}: 7 magazines</div></div>
+                <div class="report-card"><div class="district">West district</div><div class="detail">B2 4QA · area: harbour</div><div class="count">${month} ${year}: 22 magazines</div></div>
+                <div class="report-card"><div class="district">East district</div><div class="detail">2000 · area: bondi</div><div class="count">${month} ${year}: 9 magazines</div></div>
+                <div class="report-card"><div class="district">North district</div><div class="detail">M1 7ED · area: north quarter</div><div class="count">${month} ${year}: 5 magazines</div></div>
+            `;
+        });
+
+        // initial
+        renderQueue();
+        renderPrinted();
+    })();
+</script>
+</body>
+</html>
